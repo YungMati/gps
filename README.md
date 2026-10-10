@@ -1,54 +1,25 @@
-# RallyNav PL — MVP
+# RallyNav PL v2
 
-Prototyp nawigacji samochodowej na iPhone'a: mapa OSM, pozycja GPS, trasa OSRM, wskazówki manewrów i synteza mowy po polsku.
+Nawigacja samochodowa na iPhone'a (PWA) z pilotem rajdowym po polsku.
+
+## Co nowego względem MVP
+- **Śledzenie auta jak w Google Maps** – płynnie animowana strzałka, dopasowanie do drogi (snap-to-route), mapa obraca się zgodnie z kierunkiem jazdy, auto sam jest w dolnej części ekranu, a zoom zależy od prędkości i zbliżającego się manewru.
+- **Zmiana trasy po zjechaniu z drogi** – wykrywanie zjazdu (3 odczyty GPS poza korytarzem), głosowe „Przeliczam", nowa trasa liczona z uwzględnieniem kierunku jazdy.
+- **Trasy alternatywne** – podgląd do 4 tras z różnicą czasu, wybór dotknięciem linii lub kafelka.
+- **Objazd zgłoszeń** – jeśli na trasie jest korek / wypadek / roboty zgłoszone przez kierowcę, pojawia się przycisk **OBJEDŹ**, który wybiera trasę omijającą zgłoszenie.
+- **Satelita** – warstwy: Ciemna, Mapa (OSM), Satelita i Hybryda (Esri).
+- **Pilot rajdowy** – numerowane zakręty liczone z geometrii („prawy trzy", „agrafka w lewo"), zapowiedzi „potem…", odległość zapowiedzi zależna od prędkości. Można przełączyć na styl klasyczny.
+- **Wyszukiwarka** z podpowiedziami (Photon, fallback Nominatim), ostatnie cele, wklejanie współrzędnych, **długie przytrzymanie na mapie = cel / zgłoszenie**.
+- **Zgłoszenia społecznościowe (lokalnie)** – 6 typów, wygasają automatycznie, potwierdzanie / usuwanie, zapamiętywane w telefonie.
+- Wake Lock (ekran nie gaśnie), wibracje, podsumowanie przejazdu, nowy interfejs.
+- **Symulacja jazdy** – przycisk „Symulacja" w podglądzie trasy; przycisk „Zjedź z trasy" testuje przeliczanie. Działa też na komputerze.
 
 ## Uruchomienie
+Opublikuj folder jako stronę HTTPS (GitHub Pages / Netlify / Cloudflare Pages), otwórz w Safari na iPhonie → Udostępnij → *Dodaj do ekranu początkowego*. Lokalnie: `python3 -m http.server 8080` (GPS na iPhonie wymaga HTTPS).
 
-Najprościej opublikować folder jako statyczną stronę HTTPS, np. GitHub Pages, Cloudflare Pages albo Netlify. Otwórz adres w Safari na iPhonie, zezwól na lokalizację i wybierz **Udostępnij → Dodaj do ekranu początkowego**. Geolokalizacja wymaga HTTPS (localhost jest wyjątkiem).
-
-Można też lokalnie uruchomić prosty serwer w folderze projektu:
-
-```bash
-python3 -m http.server 8080
-```
-
-Następnie otworzyć `http://localhost:8080` na komputerze. Do testu GPS na iPhonie strona musi być dostępna przez HTTPS.
-
-## Co działa w tym MVP
-
-- mapa ulic oparta na OpenStreetMap;
-- wyszukiwanie celu w Polsce przez Nominatim;
-- trasa samochodowa przez publiczny serwer OSRM;
-- podstawowe wskazówki manewrów, odległości, polska synteza mowy;
-- bieżąca lokalizacja i prędkość, jeśli GPS urządzenia ją udostępnia;
-- lokalne pinezki zgłoszeń: korek, roboty, policja/ kontrola, zdarzenie.
-
-## Ograniczenia — ważne
-
-- **To prototyp, nie certyfikowana nawigacja.** Nie używaj go jako jedynego źródła wskazówek w czasie jazdy.
-- Nie ma jeszcze prawdziwego, ciągłego feedu korków ani automatycznych zgłoszeń między użytkownikami. Prędkość/ETA w trasie są szacunkowe, bez korekt na ruch.
-- Zgłoszenia są przechowywane tylko w bieżącej sesji na urządzeniu; nie ma backendu, kont ani synchronizacji.
-- Publiczny routing, geokoder i serwer kafelków mogą ograniczać zapytania lub być niedostępne. Przed większym użyciem należy wybrać dostawcę zgodnie z jego warunkami lub utrzymywać własny serwer.
-- Nie pobieraj map offline z serwera kafelków OpenStreetMap. Zachowaj widoczną atrybucję © OpenStreetMap contributors.
-- Dane o utrudnieniach GDDKiA/KPD: https://kpd.gddkia.gov.pl/ — automatyczna integracja wymaga sprawdzenia aktualnych warunków dostępu, w tym rejestracji/autoryzacji.
-- Lokalizacje policji, jeśli kiedykolwiek zostaną dodane, powinny być wyłącznie dobrowolnymi, datowanymi zgłoszeniami użytkowników, a nie obietnicą kompletnego śledzenia patroli.
-
-## Pliki
-
-- `index.html` — aplikacja
-- `manifest.webmanifest` — ustawienia instalacji PWA
-- `sw.js` — podstawowy cache powłoki strony
-
-## Kolejne etapy
-
-1. Dodać backend i bazę danych dla zgłoszeń, czas wygaśnięcia i potwierdzanie przez innych kierowców.
-2. Integracja z autoryzowanym źródłem zdarzeń GDDKiA/KPD oraz normalizacja DATEX II.
-3. Prawdziwy routing z uwzględnieniem utrudnień, ponowne wyznaczanie trasy i dokładniejsze dopasowanie do drogi.
-4. Testy bezpieczeństwa, prywatności i działania na ekranie blokady; dla pełnej nawigacji głosowej w tle może być potrzebna natywna aplikacja iOS.
-
-## Źródła i licencje
-
-- Mapa i dane: OpenStreetMap, ODbL — https://www.openstreetmap.org/copyright
-- Zasady kafelków OSM: https://operations.osmfoundation.org/policies/tiles/
-- OSRM: https://project-osrm.org/
-- KPD/GDDKiA: https://kpd.gddkia.gov.pl/
+## Ograniczenia (nadal prawda)
+- Brak danych o ruchu na żywo – ETA bez korekt na korki. Zgłoszenia nie są synchronizowane między kierowcami (to wymaga backendu).
+- Publiczne serwery OSRM / Photon / Nominatim / kafelków mają limity – do produkcji potrzebny własny lub płatny dostawca.
+- Kafelki Esri i CARTO: sprawdź warunki użycia przy publikacji komercyjnej. Nie pobieraj kafelków OSM offline. Atrybucje są widoczne na mapie.
+- Safari nie pozwala na głos w tle po zablokowaniu ekranu – do tego potrzebna natywna aplikacja.
+- Prototyp, nie certyfikowana nawigacja. Trasę ustawiaj na postoju.
