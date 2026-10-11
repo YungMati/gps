@@ -8,7 +8,7 @@ Nawigacja samochodowa na iPhone'a (PWA) z pilotem rajdowym po polsku.
 - **Trasy alternatywne** – podgląd do 4 tras z różnicą czasu, wybór dotknięciem linii lub kafelka.
 - **Objazd zgłoszeń** – jeśli na trasie jest korek / wypadek / roboty zgłoszone przez kierowcę, pojawia się przycisk **OBJEDŹ**, który wybiera trasę omijającą zgłoszenie.
 - **Satelita** – warstwy: Ciemna, Mapa (OSM), Satelita i Hybryda (Esri).
-- **Pilot rajdowy** – numerowane zakręty liczone z geometrii („prawy trzy", „agrafka w lewo"), zapowiedzi „potem…", odległość zapowiedzi zależna od prędkości. Można przełączyć na styl klasyczny.
+- **Pilot rajdowy** – skala jak w DiRT Rally: 6 (prawie prosto) → 1 (ciasny), kwadrat (90°) i agrafka, z kolorowymi ikonami; lewe zakręty to lustrzane odbicie. Pilot woła także **łagodne łuki na drodze** wykryte z geometrii (nie tylko skrzyżowania), np. „prawy cztery długi, potem lewy sześć". Zapowiedzi „potem…", odległość zależna od prędkości. Styl klasyczny wymienia tylko ostre zakręty.
 - **Wyszukiwarka** z podpowiedziami (Photon, fallback Nominatim), ostatnie cele, wklejanie współrzędnych, **długie przytrzymanie na mapie = cel / zgłoszenie**.
 - **Zgłoszenia społecznościowe (lokalnie)** – 6 typów, wygasają automatycznie, potwierdzanie / usuwanie, zapamiętywane w telefonie.
 - Wake Lock (ekran nie gaśnie), wibracje, podsumowanie przejazdu, nowy interfejs.
@@ -20,6 +20,6 @@ Opublikuj folder jako stronę HTTPS (GitHub Pages / Netlify / Cloudflare Pages),
 ## Ograniczenia (nadal prawda)
 - Brak danych o ruchu na żywo – ETA bez korekt na korki. Zgłoszenia nie są synchronizowane między kierowcami (to wymaga backendu).
 - Publiczne serwery OSRM / Photon / Nominatim / kafelków mają limity – do produkcji potrzebny własny lub płatny dostawca.
-- Kafelki Esri i CARTO: sprawdź warunki użycia przy publikacji komercyjnej. Nie pobieraj kafelków OSM offline. Atrybucje są widoczne na mapie.
+- Kafelki Esri (satelita) i standardowe OSM (mapa i tryb ciemny – ciemny to filtr CSS na kafelkach OSM, bez klucza API; CARTO wymaga już klucza, więc zostało usunięte): sprawdź warunki użycia przy publikacji komercyjnej. Nie pobieraj kafelków OSM offline. Atrybucje są widoczne na mapie.
 - Safari nie pozwala na głos w tle po zablokowaniu ekranu – do tego potrzebna natywna aplikacja.
 - Prototyp, nie certyfikowana nawigacja. Trasę ustawiaj na postoju.
